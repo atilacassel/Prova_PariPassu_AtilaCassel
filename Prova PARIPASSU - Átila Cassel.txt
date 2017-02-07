@@ -1,0 +1,64 @@
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class NovoTeste 
+{
+
+	@Test
+	public void testeQuestionario() {
+		
+		//alterar caminho do Gecko
+		System.setProperty("webdriver.gecko.driver", "c:\\geckodriver.exe");
+		WebDriver driver = new FirefoxDriver();
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		
+		// login
+		driver.get("http://clicq.paripassu.com.br/");
+		driver.findElement(By.id("usuario")).sendKeys("atilacassel@gmail.com");
+		driver.findElement(By.id("password")).sendKeys("Teste12345");
+		driver.findElement(By.id("submit-login")).click();
+			
+		// espera para o carregamento da tela
+		By botaoRelatorio = By.xpath("//div[contains(text(),'RELATÓRIO')]");
+		wait.until(ExpectedConditions.presenceOfElementLocated(botaoRelatorio));
+		
+		// clica no meu Aplicacao de Questionario
+		driver.findElement(By.xpath("//a[contains(text(),'Aplicação de questionário')]")).click();
+		
+		// clica na nova aplicação de questionário
+		// espera para o carregamento da rela
+		By novoQuestionario = By.xpath("//a[contains(text(),'Nova aplicação de questionário')]");
+		wait.until(ExpectedConditions.presenceOfElementLocated(novoQuestionario)).click();
+		
+		// espera para o carregamento da tela
+		By campoFiltro = By.cssSelector("input[ng-model='inputFilter']");
+		wait.until(ExpectedConditions.presenceOfElementLocated(campoFiltro));
+		
+		// clica no questionário de teste
+		driver.findElement(By.xpath("//strong[contains(text(),'Teste QA 2017 - 1')]")).click();
+		
+		// espera para o carregamento da tela
+		By campoFiltro2 = By.cssSelector("input[ng-model='inputFilter']");
+		wait.until(ExpectedConditions.presenceOfElementLocated(campoFiltro2));
+				
+		// clica no avaliado
+		driver.findElement(campoFiltro2).sendKeys("Analista");
+		driver.findElement(By.xpath("//strong[contains(text(),'Analista de Qualidade')]")).click();		
+		
+		// espera para o carregamento da tela
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.linkText("Salvar")));
+		
+		// preenche os campos(preenchimento não concluído pois os campos não apresentam ID)
+		driver.findElement(By.xpath("//textarea[@type='text'])[1]")).sendKeys("Átila Cassel");
+		driver.findElement(By.xpath("//textarea[@type='text'])[1]")).sendKeys("atilacassel@gmail.com");
+		
+		// driver.quit();
+	}
+	  
+	}
